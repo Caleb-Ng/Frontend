@@ -1,0 +1,59 @@
+<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%">
+
+    <mat-card class="card" fxFlex>
+        <h3>Register</h3>
+         <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center center">
+             <div fxLayout="row" fxLayoutGap >
+                <mat-form-field appearance="legacy" >
+                    <mat-label>Username</mat-label>
+                    <input formControlName="username" matInput placeholder="Username">
+                    <mat-error *ngIf="form.get('username').hasError('required')">Username is Required</mat-error>
+                  </mat-form-field>
+    
+                  <mat-form-field appearance="legacy">
+                    <mat-label>E-mail</mat-label>
+                    <input formControlName="email" matInput placeholder="E-mail">
+                    <mat-error *ngIf="form.get('email').hasError('required')">E-mail is Required</mat-error>
+                    <mat-error *ngIf="form.get('email').hasError('email')">Invalid E-mail format</mat-error>
+                  </mat-form-field>
+             </div>
+            
+
+              <div fxLayout="row">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Password</mat-label>
+                    <input formControlName="password" matInput placeholder="Password" type="password">
+                    <mat-error *ngIf="form.get('password').hasError('required')">Password is Required</mat-error>
+                  </mat-form-field>
+    
+                  <mat-form-field appearance="legacy">
+                    <mat-label>Confirm Password</mat-label>
+                    <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
+                    <mat-error *ngIf="form.get('confirmPassword').hasError('NotEqual')">Must be same as password</mat-error>
+                    <mat-error *ngIf="form.get('confirmPassword').hasError('required')">Confirm Password is Required</mat-error>
+                  </mat-form-field>
+              </div>
+              
+              <div fxLayout="row">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Firstname</mat-label>
+                    <input formControlName="firstName" matInput placeholder="Firstname">
+                    <mat-error *ngIf="form.get('firstName').hasError('required')">Firstname is Required</mat-error>
+                  </mat-form-field>
+    
+                  <mat-form-field appearance="legacy">
+                    <mat-label>Lastname</mat-label>
+                    <input formControlName="lastName" matInput placeholder="Lastname">
+                    <mat-error *ngIf="form.get('lastName').hasError('required')">Lastname is Required</mat-error>
+                  </mat-form-field>
+                
+              </div>
+
+              
+         </form>
+
+         <button mat-raised-button (click)="register()" color="primary" style="float:right;">Register</button>
+
+    </mat-card>
+
+</div>   

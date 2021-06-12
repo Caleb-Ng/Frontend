@@ -14,7 +14,7 @@
     <mat-icon>account_circle</mat-icon>
     <button mat-button [matMenuTriggerFor]="account">Account</button>
     <mat-menu #account="matMenu">
-    <button mat-menu-item>Register</button>
+    <button mat-menu-item (click)="register()">Register</button>
     <button (click)="login()" mat-menu-item>Login</button>
     </mat-menu>
 

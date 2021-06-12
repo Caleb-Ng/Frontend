@@ -55,6 +55,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  register(): void {
+    this.router.navigate(['/register']);
+  }
+
   logout(): void {
     this.collapseNavbar();
     this.loginService.logout();
