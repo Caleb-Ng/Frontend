@@ -7,15 +7,17 @@
     <span class="example-spacer"></span>
     
     <!-- home button -->
-    <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-    <button mat-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</button>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" >home</mat-icon>
+    <button mat-button routerLinkActive="active" [routerLink]="['/home']" [routerLinkActiveOptions]="{ exact: true }">Home</button>
     
     <!-- account button -->
     <mat-icon>account_circle</mat-icon>
     <button mat-button [matMenuTriggerFor]="account">Account</button>
     <mat-menu #account="matMenu">
-    <button mat-menu-item (click)="register()">Register</button>
-    <button (click)="login()" mat-menu-item>Login</button>
+      <button mat-menu-item (click)="register()" *ngIf="!loginService.loggedIn">Register</button>
+      <button (click)="login()" mat-menu-item *ngIf="!loginService.loggedIn">Login</button>
+      <button mat-menu-item (click)="viewProfile()" *ngIf="loginService.loggedIn">Profile</button>
+      <button mat-menu-item (click)="logout()" *ngIf="loginService.loggedIn">Log Out</button>
     </mat-menu>
 
     <!-- <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
@@ -24,8 +26,8 @@
         <button mat-button [matMenuTriggerFor]="language">Language</button>
       <!-- </a> -->
       <mat-menu #language="matMenu">
-        <button (click)="changeLanguage(language)" mat-menu-item>English</button>
-        <button (click)="changeLanguage(language)" mat-menu-item>Chinese</button>
+        <button (click)="changeLanguage('en')" mat-menu-item>English</button>
+        <button (click)="changeLanguage('ch')" mat-menu-item>Chinese</button>
       </mat-menu>
      
      

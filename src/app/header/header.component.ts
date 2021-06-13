@@ -5,7 +5,6 @@ import { SessionStorageService } from 'ngx-webstorage';
 import { LANGUAGES } from '../shared/language.constants';
 import { AccountService } from '../shared/accounts.service';
 import { LoginService } from '../login/login.service';
-import { ProfileService } from '../profile/profile.service';
 
 @Component({
   selector: 'app-header',
@@ -25,16 +24,16 @@ export class HeaderComponent implements OnInit {
     private translateService: TranslateService,
     private sessionStorage: SessionStorageService,
     private accountService: AccountService,
-    private profileService: ProfileService,
     private router: Router
   ) {
     
   }
 
   ngOnInit(): void {
-    this.profileService.getProfileInfo().subscribe(profileInfo => {
-      this.inProduction = profileInfo.inProduction;
-      this.openAPIEnabled = profileInfo.openAPIEnabled;
+    this.accountService.identity().subscribe(() => {
+      if (this.accountService.isAuthenticated()) {
+        this.loginService.loggedIn = true;
+      }
     });
   }
 
@@ -60,6 +59,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
+    this.loginService.loggedIn = false;
     this.collapseNavbar();
     this.loginService.logout();
     this.router.navigate(['']);
@@ -72,4 +72,9 @@ export class HeaderComponent implements OnInit {
   getImageUrl(): string {
     return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
   }
+
+  viewProfile(){
+
+  }
+
 }
