@@ -1,7 +1,11 @@
-<form fxLayout="column"  class="form-style" action="https://uat.kiplepay.com/wcgatewayinit.php" method="post">
+<form fxLayout="column" fxLayoutAlign="center center" class="form-style" action="https://uat.kiplepay.com/wcgatewayinit.php" method="post">
     <input type="hidden" name="ord_date" value="11 November 2010">
-    <input type="text" name="ord_totalamt" value="100.00" />
-    <input type="text" name="ord_gstamt" value="0.00" />
+    <mat-form-field appearance="fill">
+        <input type="text" matInput name="ord_totalamt" value="100.00" />
+    </mat-form-field>
+    
+    <br>
+    <input type="hidden" name="ord_gstamt" value="0.00" />
     <input type="hidden" name="ord_shipname" value="John Doe">
     <input type="hidden" name="ord_shipcountry" value="Malaysia">
     <input type="hidden" name="ord_mercref" value="#Order 1231231">
@@ -9,8 +13,8 @@
     <input type="hidden" name="ord_email" value="demo@xyz.com.my">
     <input type="hidden" name="ord_delcharges" value="0.00">
     <input type="hidden" name="ord_svccharges" value="0.00">
-    <input type="text" name="ord_mercID" value="80000321">
-    <input type="text" name="merchant_hashvalue" value="187d8cf8b17161772524c6288ecd69885c862dc1">
+    <input type="hidden" name="ord_mercID" value="80000321">
+    <input type="hidden" name="merchant_hashvalue" value="187d8cf8b17161772524c6288ecd69885c862dc1">
     <input type="hidden" name="ord_returnURL" value="http://localhost:4200/api/payment">
-    <input type="submit" name="submit" value="Pay with kiplePay">
+    <button mat-raised-button type="submit" color="primary"> Pay </button>
 </form>

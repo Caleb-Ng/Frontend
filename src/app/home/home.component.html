@@ -1,23 +1,23 @@
-<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%" class=suibian>
+<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%">
     
     <mat-card class="example-card" fxFlex>
-        <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="center end">
          <img mat-card-image src="../../assets/image/service provider.jpg" >
         </div>
-         <mat-card-actions fxFlexAlign="center">
-           <div fxLayout="row" fxLayoutAlign="center center" >
-            <button mat-raised-button (click)="login()" >Provider</button>
+         <mat-card-actions style="margin-top: auto;">
+           <div fxLayout="row" fxLayoutAlign="center end">
+            <button mat-raised-button (click)="login()" class="button">Provider</button>
            </div>
          </mat-card-actions>
     </mat-card>
 
-    <mat-card class="example-card1" fxFlex>
+    <mat-card class="example-card1" fxFlex >
         <div fxLayout="row" fxLayoutAlign="center center">
-             <img mat-card-image src="../../assets/image/123-removebg-preview.png">
+             <img mat-card-image src="../../assets/image/123-removebg-preview.png" >
         </div>
-             <mat-card-actions>
-                <div fxLayout="row" fxLayoutAlign="center center" >
-                    <button mat-raised-button  (click)="goToSuccessLogInPage()"  >Client</button>
+             <mat-card-actions style="margin-top: auto;">
+                <div fxLayout="row" fxLayoutAlign="center end">
+                    <button mat-raised-button  (click)="goToSuccessLogInPage()">Client</button>
                 </div>
              </mat-card-actions>
     </mat-card>

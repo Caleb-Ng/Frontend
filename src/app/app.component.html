@@ -1,4 +1,11 @@
 
-<app-header></app-header>
+<mat-sidenav-container style="height:100%">
+  <mat-sidenav #sidenav class="sidenav">
+      <app-side-nav [sidenav]="sidenav"></app-side-nav>
+  </mat-sidenav>
 
-<router-outlet ></router-outlet>
+  <mat-sidenav-content>
+    <app-header [sidenav]="sidenav"></app-header>
+    <router-outlet ></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

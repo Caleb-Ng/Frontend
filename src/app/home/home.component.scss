@@ -1,25 +1,21 @@
 .example-card {
     // margin-left: 5%;
+    padding-top:2%;
     margin-right: 2%;
     width: 20%;
-    height: 20%;
-    flex: 0 0 auto;
-    padding-right: 0;
     max-width: 30%;
 
   }
 
   .example-card1 {
     //margin-left: 2%;
+    padding-top:2%;
     margin-right: 5%;
     width: 20%;
-    height: 20%;
-    flex: 0 0 auto;
-    padding-right: 0;
     max-width: 30%;
   }
 
-  mat-card img{
+  mat-card div img{
     object-fit: cover; /*this makes the image in src fit to the size specified below*/
     width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
     height: 80%;
@@ -29,13 +25,12 @@
      margin-bottom: 10%;
   }
 
-  
+  .card-image{
+    max-height: 30%;
+  }
   
   .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
 
-  .suibian .example-card{
-      flex : 0 0 auto;
-  }

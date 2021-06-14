@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -7,6 +7,7 @@ import { AccountService } from '../shared/accounts.service';
 import { LoginService } from '../login/login.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  
+  @Input('sidenav') sidenav: MatSidenav
    
   mobileQuery: MediaQueryList;
 
@@ -96,6 +97,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  toggleSidenav(){
+    this.sidenav.toggle();
   }
 
 }

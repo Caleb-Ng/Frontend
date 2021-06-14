@@ -9,6 +9,7 @@ import { PaymnetComponent } from './paymnet.component';
 import { SuccessComponent } from './success/success.component';
 import { CommonModule } from '@angular/common';
 
+
 const routes = [
   {
     path: "",
