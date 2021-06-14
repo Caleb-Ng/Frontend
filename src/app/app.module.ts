@@ -11,6 +11,8 @@ import { HeaderComponent } from './header/header.component'
 import {AngularMaterialModule} from './shared/AngularMaterial.module';
 import { LoginComponent } from './login/login.component' ;
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { SideNavComponent } from './side-nav/side-nav.component';
+//import { ProductDetailsComponent } from './product-details/product-details.component';
 //import { FormBuilderModule } from 'angular-form-builder';
 //import { PaymnetComponent } from './paymnet/paymnet.component';
 
@@ -23,6 +25,8 @@ export function HttpLoaderFactor(http: HttpClient){
   declarations: [
     AppComponent,
     HeaderComponent,
+    SideNavComponent,
+    //ProductDetailsComponent,
     //PaymnetComponent,
     //LoginComponent,
     //HomeComponent

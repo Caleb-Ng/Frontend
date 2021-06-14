@@ -1,32 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { LANGUAGES } from '../shared/language.constants';
 import { AccountService } from '../shared/accounts.service';
 import { LoginService } from '../login/login.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
 
+
+
+
+export class HeaderComponent implements OnInit, OnDestroy {
+
+  
+   
+  mobileQuery: MediaQueryList;
+
+  fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
   inProduction?: boolean;
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
   version = '';
 
+  private _mobileQueryListener: () => void;
+
   constructor(
     private loginService: LoginService,
     private translateService: TranslateService,
     private sessionStorage: SessionStorageService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef, 
+    media: MediaMatcher,
   ) {
-    
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit(): void {
@@ -75,6 +92,10 @@ export class HeaderComponent implements OnInit {
 
   viewProfile(){
 
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
 }

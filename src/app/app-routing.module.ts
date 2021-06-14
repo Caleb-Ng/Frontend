@@ -32,6 +32,14 @@ import { headerRoute } from './header/header.route';
     {
       path: "payment",
       loadChildren: () => import("./paymnet/payment.module").then((m) => m.PaymentModule)  
+    },
+    {
+      path: "logInSuccess",
+      loadChildren: () => import("./success-log-in-home/success-log-in-home.module").then((m) => m.SuccessLogInHomeModule)  
+    },
+    {
+      path: "productdetails",
+      loadChildren: () => import("./product-details/product-details.module").then((m) => m.ProductDetailsModule)  
     }
   
   ]

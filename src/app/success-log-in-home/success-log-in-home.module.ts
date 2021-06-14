@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AngularMaterialModule} from '../shared/AngularMaterial.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //import { SharedModule } from 'app/shared/shared.module';
 //import { HOME_ROUTE } from './home.route';
-import { HomeComponent } from './home.component';
-
+//import { HomeComponent } from './home.component';
+import { SuccessLogInHomeComponent } from './success-log-in-home.component';
 
 const routes = [
   {
     path: "",
-    component: HomeComponent
+    component: SuccessLogInHomeComponent
   }
 
 
@@ -23,9 +24,11 @@ const routes = [
   imports: [
     RouterModule.forChild(routes),
     AngularMaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule
   
   ],
-  declarations: [HomeComponent],
+  declarations: [SuccessLogInHomeComponent],
 })
-export class HomeModule {}
+export class SuccessLogInHomeModule {}

@@ -5,13 +5,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 //import { SharedModule } from 'app/shared/shared.module';
 //import { HOME_ROUTE } from './home.route';
-import { HomeComponent } from './home.component';
+import { ProductDetailsComponent } from './product-details.component';
 
 
 const routes = [
   {
     path: "",
-    component: HomeComponent
+    component: ProductDetailsComponent
   }
 
 
@@ -26,6 +26,6 @@ const routes = [
     FlexLayoutModule
   
   ],
-  declarations: [HomeComponent],
+  declarations: [ProductDetailsComponent],
 })
-export class HomeModule {}
+export class ProductDetailsModule {}

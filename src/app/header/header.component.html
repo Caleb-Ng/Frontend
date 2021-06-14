@@ -1,18 +1,18 @@
 <mat-toolbar color="primary" class="header" >
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
+    <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+    
     <span>Drone Platform</span>
 
     <span class="example-spacer"></span>
     
     <!-- home button -->
-    <mat-icon aria-hidden="false" aria-label="Example home icon" >home</mat-icon>
+    <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" >home</mat-icon> -->
     <button mat-button routerLinkActive="active" [routerLink]="['/home']" [routerLinkActiveOptions]="{ exact: true }">Home</button>
     
     <!-- account button -->
     <mat-icon>account_circle</mat-icon>
-    <button mat-button [matMenuTriggerFor]="account">Account</button>
+    <button mat-button  *ngIf="!loginService.loggedIn" [matMenuTriggerFor]="account">Log in</button>
+    <button mat-button  *ngIf="loginService.loggedIn" [matMenuTriggerFor]="account">Account</button>
     <mat-menu #account="matMenu">
       <button mat-menu-item (click)="register()" *ngIf="!loginService.loggedIn">Register</button>
       <button (click)="login()" mat-menu-item *ngIf="!loginService.loggedIn">Login</button>
@@ -30,36 +30,5 @@
         <button (click)="changeLanguage('ch')" mat-menu-item>Chinese</button>
       </mat-menu>
      
-     
-     
-     
-     <!--  <ul class="dropdown-menu" ngbDropdownMenu>
-        <li *ngFor="let language of languages">
-          <a
-            class="dropdown-item"
-            [jhiActiveMenu]="language"
-            href="javascript:void(0);"
-            (click)="changeLanguage(language); collapseNavbar()"
-            >{{ language | findLanguageFromKey }}</a
-          >
-        </li>
-      </ul>
-    </li> -->
-
-    <!-- <ng-template ngIf="true">    // automatically dropdown
-      <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-      <button mat-button [matMenuTriggerFor]="menu"
-      #matMenuTrigger="matMenuTrigger" 
-      (mouseenter)="matMenuTrigger.openMenu()" 
-      >Home</button>
-      <mat-menu #menu="matMenu"   [overlapTrigger]="false">
-        <div (mouseleave)="matMenuTrigger.closeMenu()">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
-          <button mat-menu-item>Item 3</button>
-          <button mat-menu-item>Item 4</button>
-          <button mat-menu-item>Item 5</button>
-        </div>
-      </mat-menu>
-    </ng-template> -->
 </mat-toolbar>
+
