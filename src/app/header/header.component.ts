@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { LANGUAGES } from '../shared/language.constants';
 import { AccountService } from '../shared/accounts.service';
-import { LoginService } from '../login/login.service';
+import { LoginService } from '../register/login.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -46,13 +46,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
-
+  loggedIn: boolean;
   ngOnInit(): void {
+    this.loginService.loggedIn.subscribe(
+      loggedIn => this.loggedIn = loggedIn
+    )
     this.accountService.identity().subscribe(() => {
       if (this.accountService.isAuthenticated()) {
-        this.loginService.loggedIn = true;
+        this.loginService.setLoggedIn(true);
+      }
+      else{
+        this.loginService.setLoggedIn(false);
       }
     });
+
   }
 
   changeLanguage(languageKey: string): void {
@@ -77,7 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.loginService.loggedIn = false;
+    this.loginService.setLoggedIn(false);
     this.collapseNavbar();
     this.loginService.logout();
     this.router.navigate(['']);

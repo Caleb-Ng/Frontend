@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { SessionStorageService } from 'ngx-webstorage';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { shareReplay, tap, catchError } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ export class AccountService {
 
   constructor(
     private translateService: TranslateService,
+    private localStorage: LocalStorageService,
     private sessionStorage: SessionStorageService,
     private http: HttpClient,
     private stateStorageService: StateStorageService,
@@ -81,7 +82,17 @@ export class AccountService {
   }
 
   private fetch(): Observable<Account> {
-    return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
+    let authorization = this.sessionStorage.retrieve('authorization');
+    if(authorization == null){
+      authorization = this.localStorage.retrieve('authorization');
+    }
+    if(authorization == "provider"){
+      return this.http.get<Account>(this.applicationConfigService.getEndpointFor('droneUserApi/account'));
+    }
+    else{
+      return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
+    }
+    
   }
 
   private navigateToStoredUrl(): void {

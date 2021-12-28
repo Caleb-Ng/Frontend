@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
 import { ApplicationConfigService } from './application-config.services';
-import { Login } from '../login/login.model';
+import { Login } from '../register/login.model';
 
 type JwtToken = {
   id_token: string;
@@ -29,7 +29,13 @@ export class AuthServerProvider {
   login(credentials: Login): Observable<void> {
     return this.http
       .post<JwtToken>(this.applicationConfigService.getEndpointFor('api/authenticate'), credentials)
-      .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe)));
+      .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe, false)));
+  }
+
+  loginDroneUser(credentials: Login): Observable<void> {
+    return this.http
+      .post<JwtToken>(this.applicationConfigService.getEndpointFor('droneUserApi/authenticate'), credentials)
+      .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe, true)));
   }
 
   logout(): Observable<void> {
@@ -40,14 +46,28 @@ export class AuthServerProvider {
     });
   }
 
-  private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
+  private authenticateSuccess(response: JwtToken, rememberMe: boolean, isDroneUser: boolean): void {
     const jwt = response.id_token;
     if (rememberMe) {
+      if(isDroneUser){
+        this.$localStorage.store('authorization', "provider")
+      }
+      else{
+        this.$localStorage.store('authorization', "normal")
+      }
       this.$localStorage.store('authenticationToken', jwt);
       this.$sessionStorage.clear('authenticationToken');
+      this.$sessionStorage.clear("authorization");
     } else {
+      if(isDroneUser){
+        this.$sessionStorage.store('authorization', "provider")
+      }
+      else{
+        this.$sessionStorage.store('authorization', "normal")
+      }
       this.$sessionStorage.store('authenticationToken', jwt);
       this.$localStorage.clear('authenticationToken');
+      this.$localStorage.clear("authorization");
     }
   }
 }

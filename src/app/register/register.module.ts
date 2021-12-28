@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { SuccessComponent } from './success/success.component';
@@ -37,7 +38,8 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule
   ]
 })
 export class RegisterModule { }

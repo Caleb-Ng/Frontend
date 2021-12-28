@@ -1,59 +1,127 @@
-<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%">
 
-    <mat-card class="card" fxFlex>
-        <h3>Register</h3>
-         <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center center">
-             <div fxLayout="row" fxLayoutGap >
-                <mat-form-field appearance="legacy" >
-                    <mat-label>Username</mat-label>
-                    <input formControlName="username" matInput placeholder="Username">
-                    <mat-error *ngIf="form.get('username').hasError('required')">Username is Required</mat-error>
-                  </mat-form-field>
-    
-                  <mat-form-field appearance="legacy">
-                    <mat-label>E-mail</mat-label>
-                    <input formControlName="email" matInput placeholder="E-mail">
-                    <mat-error *ngIf="form.get('email').hasError('required')">E-mail is Required</mat-error>
-                    <mat-error *ngIf="form.get('email').hasError('email')">Invalid E-mail format</mat-error>
-                  </mat-form-field>
-             </div>
-            
-
-              <div fxLayout="row">
-                <mat-form-field appearance="legacy">
-                    <mat-label>Password</mat-label>
-                    <input formControlName="password" matInput placeholder="Password" type="password">
-                    <mat-error *ngIf="form.get('password').hasError('required')">Password is Required</mat-error>
-                  </mat-form-field>
-    
-                  <mat-form-field appearance="legacy">
-                    <mat-label>Confirm Password</mat-label>
-                    <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
-                    <mat-error *ngIf="form.get('confirmPassword').hasError('NotEqual')">Must be same as password</mat-error>
-                    <mat-error *ngIf="form.get('confirmPassword').hasError('required')">Confirm Password is Required</mat-error>
-                  </mat-form-field>
-              </div>
-              
-              <div fxLayout="row">
-                <mat-form-field appearance="legacy">
-                    <mat-label>Firstname</mat-label>
-                    <input formControlName="firstName" matInput placeholder="Firstname">
-                    <mat-error *ngIf="form.get('firstName').hasError('required')">Firstname is Required</mat-error>
-                  </mat-form-field>
-    
-                  <mat-form-field appearance="legacy">
-                    <mat-label>Lastname</mat-label>
-                    <input formControlName="lastName" matInput placeholder="Lastname">
-                    <mat-error *ngIf="form.get('lastName').hasError('required')">Lastname is Required</mat-error>
-                  </mat-form-field>
+<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%;">
+    <div class="col-md-8">
+              <div class="card">
+                <!-- <div class="card-header card-header-warning">
+                  <h4 class="card-title">Register</h4>
+                  <p class="card-category">Complete your profile</p>
+              </div> -->
+              <div class="row">
+                <div class="col-md-6">
+                  <img class="img" src="../../assets/image/drone1.jpg" style="width: 100%; height: 100%; overflow:hidden; object-fit: cover;"/>
+                </div>
+                <div class="col-md-6">
+                  <mat-tab-group style="margin: 10%;" dynamicHeight>
+                    <mat-tab label="Login">
+                      <div class="card-body">
+                        <form [formGroup]="loginForm">
+                            <div class="row">
+                                <!-- <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Company (disabled)" disabled>
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input formControlName="username" matInput placeholder="Username">
+                                      <mat-error *ngIf="form.get('username').hasError('required')">Username is Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input formControlName="email" matInput placeholder="E-mail">
+                                      <mat-error *ngIf="form.get('email').hasError('required')">E-mail is Required</mat-error>
+                                      <mat-error *ngIf="form.get('email').hasError('email')">Invalid E-mail format</mat-error>
+                                    </mat-form-field>
+                                </div> -->
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input formControlName="password" matInput placeholder="Password" type="password">
+                                    <mat-error *ngIf="form.get('password').hasError('required')">Password is Required</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                  <mat-error *ngIf="authenticationError">Invalid username/password</mat-error>
+                              </div>
+                            </div>
+                            
+                            <button mat-raised-button type="submit" (click)="login()" class="btn btn-danger pull-right">Login</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    </mat-tab>
+                    <mat-tab label="Register">
+                      <div class="card-body">
+                        <form [formGroup]="form">
+                            <div class="row">
+                                <!-- <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Company (disabled)" disabled>
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                      <input formControlName="username" matInput placeholder="Username">
+                                      <mat-error *ngIf="form.get('username').hasError('required')">Username is Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                      <input formControlName="email" matInput placeholder="E-mail">
+                                      <mat-error *ngIf="form.get('email').hasError('required')">E-mail is Required</mat-error>
+                                      <mat-error *ngIf="form.get('email').hasError('email')">Invalid E-mail format</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input formControlName="firstName" matInput placeholder="Firstname">
+                                    <mat-error *ngIf="form.get('firstName').hasError('required')">Firstname is Required</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input formControlName="lastName" matInput placeholder="Lastname">
+                                    <mat-error *ngIf="form.get('lastName').hasError('required')">Lastname is Required</mat-error>
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input formControlName="password" matInput placeholder="Password" type="password">
+                                    <mat-error *ngIf="form.get('password').hasError('required')">Password is Required</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
+                                    <mat-error *ngIf="form.get('confirmPassword').hasError('NotEqual')">Must be same as password</mat-error>
+                                    <mat-error *ngIf="form.get('confirmPassword').hasError('required')">Confirm Password is Required</mat-error>
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            <button mat-raised-button type="submit" (click)="register()" class="btn btn-danger pull-right">Register</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    </mat-tab>
+                    
+  
+                  </mat-tab-group>
+                </div>
                 
               </div>
-
-              
-         </form>
-
-         <button mat-raised-button (click)="register()" color="primary" style="float:right;">Register</button>
-
-    </mat-card>
-
+                
+                  
+              </div>
+          </div>
 </div>   

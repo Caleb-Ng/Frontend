@@ -21,17 +21,13 @@ import { headerRoute } from './header/header.route';
       path: "home",
       loadChildren: () => import("./home/home.module").then((m) => m.HomeModule)  
     },
-    {
-      path: 'login',
-      loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
-    },
+    // {
+    //   path: 'login',
+    //   loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+    // },
     {
       path: 'register',
       loadChildren: () => import('./register/register.module').then(m => m.RegisterModule),
-    },
-    {
-      path: "payment",
-      loadChildren: () => import("./paymnet/payment.module").then((m) => m.PaymentModule)  
     },
     {
       path: "logInSuccess",
@@ -40,7 +36,15 @@ import { headerRoute } from './header/header.route';
     {
       path: "productdetails",
       loadChildren: () => import("./product-details/product-details.module").then((m) => m.ProductDetailsModule)  
-    }
+    },
+    {
+      path: "dashboard",
+      loadChildren: () => import("./dashboard/dashboard.module").then((m) => m.DashboardModule)  
+    },
+    {
+      path: "create-drone",
+      loadChildren: () => import("./create-drone/create-drone.module").then((m) => m.CreateDroneModule)  
+    },
   
   ]
   )

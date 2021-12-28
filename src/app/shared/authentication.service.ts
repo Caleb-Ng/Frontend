@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AuthenticationService {
   private endpoint = environment.endpoint;
+  private providerEndpoint = environment.providerEndpoint;
   jwtTokenKey = "JWT_TOKEN";
   userDetailsKey = "USER_DETAILS";
   emailKey = "LOGGED_EMAIL";
@@ -73,6 +74,10 @@ export class AuthenticationService {
 
   register(body):Observable<any>{
     return this.http.post(`${this.endpoint}/register`, body);
+  }
+
+  registerProvider(body):Observable<any>{
+    return this.http.post(`${this.providerEndpoint}/register`, body);
   }
 
   activateAccount(key):Observable<any>{

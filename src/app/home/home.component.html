@@ -1,6 +1,42 @@
-<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%">
+<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%; height: 100%;">
     
-    <mat-card class="example-card" fxFlex>
+    <div class="col-md-4">
+        <div class="card card-profile">
+            <div class="card-avatar">
+                <a href="javascript:void(0)">
+                    <img class="img" src="../../assets/image/service provider.jpg" />
+                </a>
+            </div>
+            <div class="card-body">
+                
+                <h4 class="card-title">Drone Provider</h4>
+                <p class="card-description">
+                    If you would like to rent a drone, click here!
+                </p>
+                <a (click)="loginProvider()" class="btn btn-danger btn-round">Enter</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card card-profile">
+            <div class="card-avatar">
+                <a href="javascript:void(0)">
+                    <img class="img" src="../../assets/image/123-removebg-preview.png" />
+                </a>
+            </div>
+            <div class="card-body">
+                
+                <h4 class="card-title">User</h4>
+                <p class="card-description">
+                    If you would like to rent a drone, click here!
+                </p>
+                <a (click)="goToSuccessLogInPage()" class="btn btn-danger btn-round">Enter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- <mat-card class="example-card" fxFlex>
         <div fxLayout="row" fxLayoutAlign="center end">
          <img mat-card-image src="../../assets/image/service provider.jpg" >
         </div>
@@ -20,5 +56,6 @@
                     <button mat-raised-button  (click)="goToSuccessLogInPage()">Client</button>
                 </div>
              </mat-card-actions>
-    </mat-card>
+    </mat-card> -->
 </div>   
+

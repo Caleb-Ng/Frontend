@@ -9,7 +9,6 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component'
 import {AngularMaterialModule} from './shared/AngularMaterial.module';
-import { LoginComponent } from './login/login.component' ;
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { SideNavComponent } from './side-nav/side-nav.component';
 //import { ProductDetailsComponent } from './product-details/product-details.component';

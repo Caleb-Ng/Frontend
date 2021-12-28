@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="header" >
+<mat-toolbar color="accent" class="header" >
     <button mat-icon-button (click)="toggleSidenav()"><mat-icon>menu</mat-icon></button>
     
     <span>Drone Platform</span>
@@ -11,13 +11,13 @@
     
     <!-- account button -->
     <mat-icon>account_circle</mat-icon>
-    <button mat-button  *ngIf="!loginService.loggedIn" [matMenuTriggerFor]="account">Log in</button>
-    <button mat-button  *ngIf="loginService.loggedIn" [matMenuTriggerFor]="account">Account</button>
+    <button mat-button  *ngIf="!loggedIn" [matMenuTriggerFor]="account">Log in</button>
+    <button mat-button  *ngIf="loggedIn" [matMenuTriggerFor]="account">Account</button>
     <mat-menu #account="matMenu">
-      <button mat-menu-item (click)="register()" *ngIf="!loginService.loggedIn">Register</button>
-      <button (click)="login()" mat-menu-item *ngIf="!loginService.loggedIn">Login</button>
-      <button mat-menu-item (click)="viewProfile()" *ngIf="loginService.loggedIn">Profile</button>
-      <button mat-menu-item (click)="logout()" *ngIf="loginService.loggedIn">Log Out</button>
+      <button mat-menu-item (click)="register()" *ngIf="!loggedIn">Register</button>
+      <button (click)="login()" mat-menu-item *ngIf="!loggedIn">Login</button>
+      <button mat-menu-item (click)="viewProfile()" *ngIf="loggedIn">Profile</button>
+      <button mat-menu-item (click)="logout()" *ngIf="loggedIn">Log Out</button>
     </mat-menu>
 
     <!-- <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
