@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard.component';
+import { DroneDetailsComponent } from './drone-details.component';
 import { RouterModule } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 
+
 const routes = [
   {
     path: "",
-    component: DashboardComponent
+    component: DroneDetailsComponent
   },
 ];
 
-
 @NgModule({
   declarations: [
-    DashboardComponent
+    DroneDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -24,4 +24,4 @@ const routes = [
     MatIconModule,
   ]
 })
-export class DashboardModule { }
+export class DroneDetailsModule { }

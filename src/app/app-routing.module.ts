@@ -45,6 +45,10 @@ import { headerRoute } from './header/header.route';
       path: "create-drone",
       loadChildren: () => import("./create-drone/create-drone.module").then((m) => m.CreateDroneModule)  
     },
+    {
+      path: "drone/:id",
+      loadChildren: () => import("./drone-details/drone-details.module").then((m) => m.DroneDetailsModule)  
+    }
   
   ]
   )
