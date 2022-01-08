@@ -2,7 +2,8 @@ const PROXY_CONFIG = [
     {
         context: [
           "/api",
-          "/droneUserApi"
+          "/droneUserApi",
+          "/websocket"
         ],
         target: "http://localhost:8080",
         secure: false

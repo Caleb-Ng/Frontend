@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as Chartist from 'chartist';
+import { DroneDetailsService } from './drone-details.service';
+
+const tooltip = require('chartist-plugin-tooltip');
 
 @Component({
   selector: 'app-drone-details',
@@ -8,7 +12,13 @@ import * as Chartist from 'chartist';
 })
 export class DroneDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private droneDetailsService: DroneDetailsService,
+    private route: ActivatedRoute) { }
+
+  droneId;
+  droneTelemetries;
+  latestStatus;
+  range = "Hour"
 
   startAnimationForLineChart(chart){
     let seq: any, delays: any, durations: any;
@@ -66,28 +76,150 @@ startAnimationForBarChart(chart){
 
     seq2 = 0;
 };
+
+sendMessage(){
+  // this.droneDetailsService._send("hello")
+    
+}
+
+
+
+
+
 ngOnInit() {
-    /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
-    const dataDailySalesChart: any = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-        series: [
-            [12, 17, 7, 17, 23, 18, 38]
-        ]
-    };
+  this.route.params.subscribe(params => {
+    this.droneId = params["id"];
+  })
+  let dateString = []
+  let yaw = []
 
-   const optionsDailySalesChart: any = {
-        lineSmooth: Chartist.Interpolation.cardinal({
-            tension: 0
-        }),
-        low: 0,
-        high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
+  const dataDailySalesChart: any = {
+    labels: dateString,
+    series: [
+       yaw
+    ]
+};
+
+    var optionsDailySalesChart: any = {
+    lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+    }),
+    low: Math.min(...yaw),
+    high: Math.max(...yaw), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
+    plugins:[
+      tooltip()
+    ],
+    classNames: {
+      chart: 'ct-chart-line',
+      label: 'ct-label',
+      labelGroup: 'ct-labels',
+      series: 'ct-series',
+      line: 'ct-line',
+      point: 'ct-point',
+      area: 'ct-area',
+      grid: 'ct-grid',
+      gridGroup: 'ct-grids',
+      vertical: 'ct-vertical',
+      horizontal: 'ct-horizontal',
+      start: 'ct-start',
+      end: 'ct-end'
+    }
     }
 
-    var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+    // var optionswebsiteViewsChartYaw = {
+    //   axisX: {
+    //       showGrid: false
+    //   },
+    //   low: Math.min(...yaw),
+    //   high: Math.max(...yaw),
+    //   chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
+    // };
+    var responsiveOptionsYaw: any[] = [
+    ['screen and (max-width: 640px)', {
+      seriesBarDistance: 5,
+      axisX: {
+        showLabel: false,
+      }
+    }]
+    ];
 
-    this.startAnimationForLineChart(dailySalesChart);
+
+
+    var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart, responsiveOptionsYaw);
+
+    this.startAnimationForBarChart(dailySalesChart);
+
+
+  this.droneDetailsService.getTelemetry(this.droneId, this.range).subscribe(res => {
+    this.droneTelemetries = res;
+    let dateList: Array<any> = this.droneTelemetries["dateList"]
+    dateString = dateList.map(e => {
+      if(this.range == "Hour"){
+        return new Date(e).toLocaleTimeString([], {hour12: false, hour:"2-digit", minute:"2-digit"});
+      }
+      else if(this.range == "Day"){
+        return new Date(e).toLocaleTimeString([], {hour12: false, hour:"2-digit", minute:"2-digit"});
+      }
+      else if(this.range == "Month"){
+        let date = new Date(e);
+        return date.getDate().toString() + "/" +(date.getMonth() + 1).toString();
+      }
+
+    })
+    let telemetries: Array<any> = this.droneTelemetries["droneTelemetryDTOList"]
+    yaw = telemetries.map(e => {
+      if(e){
+        return e["yaw"]
+      }
+      else{
+        return null;
+      }
+    })
+    let data = {
+      labels: dateString,
+      series: [
+         yaw
+      ]
+  };
+  optionsDailySalesChart= {
+    lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+    }),
+    low: Math.min(...yaw),
+    high: Math.max(...yaw), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
+    plugins:[
+      tooltip()
+    ],
+    classNames: {
+      chart: 'ct-chart-line',
+      label: 'ct-label',
+      labelGroup: 'ct-labels',
+      series: 'ct-series',
+      line: 'ct-line',
+      point: 'ct-point',
+      area: 'ct-area',
+      grid: 'ct-grid',
+      gridGroup: 'ct-grids',
+      vertical: 'ct-vertical',
+      horizontal: 'ct-horizontal',
+      start: 'ct-start',
+      end: 'ct-end'
+    }
+    }
+    dailySalesChart.update(data, optionsDailySalesChart);
+
+
+
+
+    // console.log(this.droneTelemetries);
+  });
+
+  
+
+  
 
 
     /* ----------==========     Completed Tasks Chart initialization    ==========---------- */

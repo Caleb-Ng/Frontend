@@ -1,3 +1,6 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/chartist.js/0.9.5/chartist.min.js"></script>
+<link href="https://cdn.jsdelivr.net/chartist.js/0.9.5/chartist.min.css" rel="stylesheet" />
 <div class="main-content">
     <div class="container-fluid">
         <div>
@@ -5,6 +8,7 @@
                 <mat-icon>add</mat-icon>
               </button>
         </div>
+        <button (click)="sendMessage()">hello</button>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
@@ -75,15 +79,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="card card-chart">
+            <div class="col-md-12">
+                <div class="card card-chart" >
+                    
                     <div class="card-header card-header-success">
                         <div class="ct-chart" id="dailySalesChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Daily Sales</h4>
-                        <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+                        <h4 class="card-title">Yaw</h4>
+                        <!-- <p class="card-category">
+                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
                     </div>
                     <div class="card-footer">
                         <div class="stats">
