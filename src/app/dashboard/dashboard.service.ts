@@ -20,6 +20,10 @@ export class DashboardService {
 
         }
 
-        return this.http.get('droneUserApi/drone', {params, observe: "response"});
+        return this.http.get('droneUserApi/drone', {params, observe: "response", responseType: 'json'});
+  }
+
+  deleteDrone(droneId): Observable<any>{
+      return this.http.delete('droneUserApi/drone/' + droneId)
   }
 }

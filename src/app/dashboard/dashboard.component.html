@@ -1,12 +1,12 @@
-<div class="main-content">
-    <div class="container-fluid">
+<div class="main-content" style="height: 100%;">
+    <div class="container-fluid" style="display: flex; flex-direction: column; height:100%;">
         <div>
             <button mat-fab color="accent" (click)="createDrone()" style="position: fixed; bottom: 5%; right: 5%; z-index: 99;">
                 <mat-icon>add</mat-icon>
               </button>
         </div>
         <div class="row" style="margin: 2%;">
-            <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let drone of drones, let i = index">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12" *ngFor="let drone of drones, let i = index">
                 <div class="card card-stats" style="height: 80%;">
                     <div class="card-header card-header-image" style="flex: 1 1 auto;">
                         <!-- <div class="card-header card-header-image" style="flex: 1 1 auto;"> -->
@@ -31,15 +31,38 @@
                             </div>
                             
                             <!-- <i class="material-icons text-danger">warning</i> -->
-                            <button mat-raised-button class="col-lg-6 col-md-6 col-sm-6" 
+                            <button mat-raised-button class="col-lg-5 col-md-5 col-sm-5 col-11" 
                             style="height: 60%;"
                             (click)="droneDetail(drone['id'])" color="accent">Details</button>
+                            <button class="col-lg-1 col-md-1 col-sm-1 col-1" 
+                            mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editDrone(drone['id'])">
+                                  <mat-icon>edit</mat-icon>
+                                  <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="deleteDrone(drone['id'])">
+                                  <mat-icon>delete</mat-icon>
+                                  <span>Delete</span>
+                                </button>
+                              </mat-menu>
 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <mat-paginator 
+        style="margin-top: auto; margin-bottom: 0;"
+        [length]="totalCount"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[4, 8, 12, 16]"
+              aria-label="Select page"
+              (page)="pageChanged($event)">
+        </mat-paginator>
        
     </div>
   </div>

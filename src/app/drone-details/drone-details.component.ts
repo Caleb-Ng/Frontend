@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as Chartist from 'chartist';
+import { Subscription } from 'rxjs';
 import { DroneDetailsService } from './drone-details.service';
 
 const tooltip = require('chartist-plugin-tooltip');
+const zoom = require('chartist-plugin-zoom');
 
 @Component({
   selector: 'app-drone-details',
@@ -15,10 +17,31 @@ export class DroneDetailsComponent implements OnInit {
   constructor(private droneDetailsService: DroneDetailsService,
     private route: ActivatedRoute) { }
 
+  lat = 28.704060;
+  long = 77.102493;
+
+  customStyle = [{  
+    "elementType": "all",  
+    "stylers": [{  
+        visibility: "off",  
+    }]  
+  }, ];  
+
   droneId;
   droneTelemetries;
   latestStatus;
-  range = "Hour"
+  range = "Day"
+  dateString = []
+  yaw = []
+  pitch = []
+  roll = []
+  velocityX = []
+  velocityY = []
+  velocityZ = []
+  lastUpdatedAttitude = ""
+  attitudeChart
+  velocityChart
+  poll: Subscription
 
   startAnimationForLineChart(chart){
     let seq: any, delays: any, durations: any;
@@ -77,85 +100,24 @@ startAnimationForBarChart(chart){
     seq2 = 0;
 };
 
-sendMessage(){
-  // this.droneDetailsService._send("hello")
-    
+
+
+map: google.maps.Map;
+
+onSelectRange(value){
+  this.range = value;
+  this.stopPoll();
+  this.startPoll();
 }
 
-
-
-
-
-ngOnInit() {
-
-  this.route.params.subscribe(params => {
-    this.droneId = params["id"];
-  })
-  let dateString = []
-  let yaw = []
-
-  const dataDailySalesChart: any = {
-    labels: dateString,
-    series: [
-       yaw
-    ]
-};
-
-    var optionsDailySalesChart: any = {
-    lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-    }),
-    low: Math.min(...yaw),
-    high: Math.max(...yaw), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-    plugins:[
-      tooltip()
-    ],
-    classNames: {
-      chart: 'ct-chart-line',
-      label: 'ct-label',
-      labelGroup: 'ct-labels',
-      series: 'ct-series',
-      line: 'ct-line',
-      point: 'ct-point',
-      area: 'ct-area',
-      grid: 'ct-grid',
-      gridGroup: 'ct-grids',
-      vertical: 'ct-vertical',
-      horizontal: 'ct-horizontal',
-      start: 'ct-start',
-      end: 'ct-end'
-    }
-    }
-
-    // var optionswebsiteViewsChartYaw = {
-    //   axisX: {
-    //       showGrid: false
-    //   },
-    //   low: Math.min(...yaw),
-    //   high: Math.max(...yaw),
-    //   chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-    // };
-    var responsiveOptionsYaw: any[] = [
-    ['screen and (max-width: 640px)', {
-      seriesBarDistance: 5,
-      axisX: {
-        showLabel: false,
-      }
-    }]
-    ];
-
-
-
-    var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart, responsiveOptionsYaw);
-
-    this.startAnimationForBarChart(dailySalesChart);
-
-
-  this.droneDetailsService.getTelemetry(this.droneId, this.range).subscribe(res => {
+startPoll(){
+  this.poll = this.droneDetailsService.getTelemetry(this.droneId, this.range).subscribe(res => {
     this.droneTelemetries = res;
-    let dateList: Array<any> = this.droneTelemetries["dateList"]
-    dateString = dateList.map(e => {
+    this.latestStatus = this.droneTelemetries["latestTelemetry"];
+    let dateList: Array<any> = this.droneTelemetries["dateList"];
+    this.lat = this.latestStatus["globalLat"];
+    this.long = this.latestStatus["globalLon"];
+    this.dateString = dateList.map(e => {
       if(this.range == "Hour"){
         return new Date(e).toLocaleTimeString([], {hour12: false, hour:"2-digit", minute:"2-digit"});
       }
@@ -168,30 +130,85 @@ ngOnInit() {
       }
 
     })
-    let telemetries: Array<any> = this.droneTelemetries["droneTelemetryDTOList"]
-    yaw = telemetries.map(e => {
+    let telemetries: Array<any> = this.droneTelemetries["droneTelemetryDTOList"];
+    this.yaw = [];
+    this.roll = [];
+    this.pitch = [];
+    this.velocityX = [];
+    this.velocityY = [];
+    this.velocityZ = [];
+
+    telemetries.map(e => {
       if(e){
-        return e["yaw"]
+        this.yaw.push(e["yaw"])
+        this.roll.push(e["roll"])
+        this.pitch.push(e["pitch"])
+        this.velocityX.push(e["velocityX"])
+        this.velocityY.push(e["velocityY"])
+        this.velocityZ.push(e["velocityZ"])
       }
       else{
-        return null;
+        this.yaw.push(null)
+        this.roll.push(null)
+        this.pitch.push(null)
+        this.velocityX.push(null)
+        this.velocityY.push(null)
+        this.velocityZ.push(null)
       }
-    })
-    let data = {
-      labels: dateString,
+    });
+  let attitudeData = {
+      labels: this.dateString,
       series: [
-         yaw
+        {name: "Yaw", data: this.yaw},
+        {name: "Pitch", data: this.pitch},
+        {name:"Roll", data: this.roll}
       ]
   };
-  optionsDailySalesChart= {
+
+  this.attitudeChart.update(attitudeData);
+
+  let velocityData: any = {
+      labels: this.dateString,
+      series: [
+        {name: "X", data: this.velocityX},
+        {name: "Y", data: this.velocityY},
+        {name:"Z", data: this.velocityZ}
+      ]
+  };
+  this.velocityChart.update(velocityData);
+
+  });
+}
+stopPoll(){
+  this.poll.unsubscribe();
+}
+
+ngOnInit() {
+
+  this.route.params.subscribe(params => {
+    this.droneId = params["id"];
+  })
+
+
+  const dataAttitude: any = {
+    labels: this.dateString,
+    series: [
+      {name: "Yaw", data: this.yaw},
+      {name: "Pitch", data: this.pitch},
+      {name:"Roll", data: this.roll}
+    ]
+};
+
+    var optionsAttitude: any = {
     lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
+        tension: 0,
+        fillHoles: true,
     }),
-    low: Math.min(...yaw),
-    high: Math.max(...yaw), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
     plugins:[
-      tooltip()
+      tooltip(),
+      // zoom(),
+      // legend(),
     ],
     classNames: {
       chart: 'ct-chart-line',
@@ -209,13 +226,36 @@ ngOnInit() {
       end: 'ct-end'
     }
     }
-    dailySalesChart.update(data, optionsDailySalesChart);
+
+    
+
+
+    this.attitudeChart = new Chartist.Line('#attitudeChart', dataAttitude, optionsAttitude);
+
+    this.startAnimationForBarChart(this.attitudeChart);
+
+
+    const dataVelocity: any = {
+      labels: this.dateString,
+      series: [
+        {name: "X", data: this.velocityX},
+        {name: "Y", data: this.velocityY},
+        {name:"Z", data: this.velocityZ}
+      ]
+  };
+  
+  
+      
+  
+  
+      this.velocityChart = new Chartist.Line('#velocityChart', dataVelocity, optionsAttitude);
+  
+      this.startAnimationForBarChart(this.velocityChart);
 
 
 
-
-    // console.log(this.droneTelemetries);
-  });
+    this.startPoll();
+  
 
   
 

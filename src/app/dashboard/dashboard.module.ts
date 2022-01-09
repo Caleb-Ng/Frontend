@@ -4,6 +4,8 @@ import { DashboardComponent } from './dashboard.component';
 import { RouterModule } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 const routes = [
   {
@@ -22,6 +24,8 @@ const routes = [
     RouterModule.forChild(routes),
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
+    MatPaginatorModule,
   ]
 })
 export class DashboardModule { }

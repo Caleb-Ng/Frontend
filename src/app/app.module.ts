@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component'
 import {AngularMaterialModule} from './shared/AngularMaterial.module';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { FlexLayoutModule } from '@angular/flex-layout'
 //import { ProductDetailsComponent } from './product-details/product-details.component';
 //import { FormBuilderModule } from 'angular-form-builder';
 //import { PaymnetComponent } from './paymnet/paymnet.component';
@@ -35,6 +36,7 @@ export function HttpLoaderFactor(http: HttpClient){
     AppRoutingModule,
     HttpClientModule,
     AngularMaterialModule,
+    FlexLayoutModule,
     //FormBuilderModule,
     NgxWebstorageModule.forRoot(),
     TranslateModule.forRoot({

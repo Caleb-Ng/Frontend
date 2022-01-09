@@ -4,8 +4,10 @@
       <app-side-nav [sidenav]="sidenav"></app-side-nav>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content fxLayout="column" fxFlexFill>
     <app-header [sidenav]="sidenav"></app-header>
-    <router-outlet></router-outlet>
+    <div fxFlex>
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

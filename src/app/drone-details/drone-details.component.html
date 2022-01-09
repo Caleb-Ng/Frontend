@@ -1,6 +1,4 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/chartist.js/0.9.5/chartist.min.js"></script>
-<link href="https://cdn.jsdelivr.net/chartist.js/0.9.5/chartist.min.css" rel="stylesheet" />
+
 <div class="main-content">
     <div class="container-fluid">
         <div>
@@ -8,23 +6,43 @@
                 <mat-icon>add</mat-icon>
               </button>
         </div>
-        <button (click)="sendMessage()">hello</button>
+        <div class="row">
+            <agm-map [latitude]='lat' [longitude]='long'>
+                <agm-marker [latitude]="lat" [longitude]="long">
+                </agm-marker>
+            </agm-map>
+        </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
+                    <div [ngClass]="{'card-header card-header-icon' : true, 'card-header-danger': latestStatus&&!latestStatus['armable'], 'card-header-success': latestStatus&&latestStatus['armable']}">
                         <div class="card-icon">
-                            <i class="material-icons">content_copy</i>
+                            <i class="material-icons"><mat-icon svgIcon="drone" style="width: 45px; height: 45px;"></mat-icon></i>
                         </div>
-                        <p class="card-category">Used Space</p>
-                        <h3 class="card-title">49/50
-                            <small>GB</small>
+                        <p class="card-category">Armable</p>
+                        <h3 class="card-title" *ngIf="latestStatus"><b>{{ latestStatus["armable"]?"Yes":"No" }}</b>
+                            <!-- <small>GB</small> -->
                         </h3>
                     </div>
                     <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons text-danger">warning</i>
-                            <a href="javascript:void(0)">Get More Space...</a>
+                        <div class="stats" *ngIf="latestStatus">
+                            <i class="material-icons">access_time</i> Last Updated: {{ latestStatus["createdDate"] | date: 'medium'  }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div [ngClass]="{'card-header card-header-icon' : true, 'card-header-danger': latestStatus&&!latestStatus['armed'], 'card-header-success': latestStatus&&latestStatus['armed']}">
+                        <div class="card-icon">
+                            <i class="material-icons"><mat-icon svgIcon="drone_armed" style="width: 45px; height: 45px;"></mat-icon></i>
+                        </div>
+                        <p class="card-category">Armed</p>
+                        <h3 class="card-title" *ngIf="latestStatus"><b>{{ latestStatus["armed"]?"Yes":"No" }}</b></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats" *ngIf="latestStatus">
+                            <i class="material-icons">access_time</i> Last Updated: {{ latestStatus["createdDate"] | date: 'medium'  }}
                         </div>
                     </div>
                 </div>
@@ -33,104 +51,79 @@
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">store</i>
+                            <i class="material-icons"><mat-icon svgIcon="mode" style="width: 45px; height: 45px;"></mat-icon></i>
                         </div>
-                        <p class="card-category">Revenue</p>
-                        <h3 class="card-title">$34,245</h3>
+                        <p class="card-category">Mode</p>
+                        <h3 class="card-title" *ngIf="latestStatus"><b>{{ latestStatus["mode"] }}</b></h3>
                     </div>
                     <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i> Last 24 Hours
+                        <div class="stats" *ngIf="latestStatus">
+                            <i class="material-icons" >access_time</i> Last Updated: {{ latestStatus["createdDate"] | date: 'medium'  }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-danger card-header-icon">
+                    <div [ngClass]="{'card-header card-header-icon' : true, 'card-header-danger': droneTelemetries&&!droneTelemetries['status'], 'card-header-success': droneTelemetries&&droneTelemetries['status']}">
                         <div class="card-icon">
-                            <i class="material-icons">info_outline</i>
+                            <i class="material-icons"><mat-icon style="width: 45px; height: 45px;">cell_wifi</mat-icon></i>
                         </div>
-                        <p class="card-category">Fixed Issues</p>
-                        <h3 class="card-title">75</h3>
+                        <p class="card-category">Online Status</p>
+                        <h3 class="card-title" *ngIf="droneTelemetries"><b>{{ droneTelemetries["status"]? "Online": "Offline" }}</b></h3>
                     </div>
                     <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">local_offer</i> Tracked from Github
+                        <div class="stats" *ngIf="latestStatus">
+                            <i class="material-icons" >access_time</i> Last Updated: {{ latestStatus["createdDate"] | date: 'medium'  }}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-info card-header-icon">
-                        <div class="card-icon">
-                            <i class="fa fa-twitter"></i>
-                        </div>
-                        <p class="card-category">Followers</p>
-                        <h3 class="card-title">+245</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">update</i> Just Updated
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="row">
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="range" (change)="onSelectRange($event.value)" style="margin-left: auto; margin-right: 3%;">
+                <mat-button-toggle value="Hour">Hour</mat-button-toggle>
+                <mat-button-toggle value="Day">Day</mat-button-toggle>
+                <mat-button-toggle value="Month">Month</mat-button-toggle>
+              </mat-button-toggle-group>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-chart" >
                     
                     <div class="card-header card-header-success">
-                        <div class="ct-chart" id="dailySalesChart"></div>
+                        <div class="ct-chart" id="attitudeChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Yaw</h4>
+                        <h4 class="card-title">Yaw, Pitch, Roll</h4>
                         <!-- <p class="card-category">
                             <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
                     </div>
-                    <div class="card-footer">
+                    <!-- <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">access_time</i> updated 4 minutes ago
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card card-chart">
-                    <div class="card-header card-header-warning">
-                        <div class="ct-chart" id="websiteViewsChart"></div>
+                    <div class="card-header card-header-success">
+                        <div class="ct-chart" id="velocityChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Email Subscriptions</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <h4 class="card-title">Velocity</h4>
                     </div>
-                    <div class="card-footer">
+                    <!-- <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">access_time</i> campaign sent 2 days ago
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="completedTasksChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Completed Tasks</h4>
-                        <p class="card-category">Last Campaign Performance</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> campaign sent 2 days ago
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-header card-header-tabs card-header-primary">
@@ -420,7 +413,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
   </div>
   
