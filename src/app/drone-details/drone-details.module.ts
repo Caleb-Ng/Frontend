@@ -6,17 +6,23 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { AgmCoreModule } from '@agm/core';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { VideoStreamComponent } from './video-stream/video-stream.component';
 
 const routes = [
   {
     path: "",
     component: DroneDetailsComponent
   },
+  {
+    path: "video-stream",
+    component: VideoStreamComponent
+  },
 ];
 
 @NgModule({
   declarations: [
-    DroneDetailsComponent
+    DroneDetailsComponent,
+    VideoStreamComponent
   ],
   imports: [
     CommonModule,

@@ -25,6 +25,10 @@ export class DroneDetailsService {
     )
   }
 
+  getVideoStream(droneId): Observable<any>{
+    return this.http.get("/droneUserApi/droneVideoStream/" + droneId, {responseType: "text"})
+  }
+
  
   
 }

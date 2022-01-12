@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import * as Chartist from 'chartist';
+import { Subscription } from 'rxjs';
 import { DashboardService } from './dashboard.service';
 
 @Component({
@@ -21,6 +22,8 @@ export class DashboardComponent implements OnInit {
   pageSize = 8;
   currentPage = 0;
 
+  subscription: Subscription;
+
   createDrone(){
     console.log("creating drone");
     this.router.navigate(["create-drone"]);
@@ -34,6 +37,7 @@ export class DashboardComponent implements OnInit {
     console.log(id);
     this.dashboardService.deleteDrone(id).subscribe(res => {
       console.log("completed");
+      this.stopPolling()
       this.loadData();
     });
     
@@ -53,16 +57,20 @@ export class DashboardComponent implements OnInit {
       page: this.currentPage,
       size: this.pageSize
     }
-    this.dashboardService.getDrone(req).subscribe(res => {
+    this.subscription = this.dashboardService.getDrone(req).subscribe(res => {
       this.drones = res.body;
       this.totalCount = res.headers.get("X-Total-Count")
     });
+  }
+  stopPolling(){
+    this.subscription.unsubscribe();
   }
 
   pageChanged(event: PageEvent) {
     console.log({ event });
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
+    this.stopPolling()
     this.loadData();
   }
 

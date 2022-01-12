@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as Chartist from 'chartist';
 import { Subscription } from 'rxjs';
 import { DroneDetailsService } from './drone-details.service';
@@ -15,10 +15,11 @@ const zoom = require('chartist-plugin-zoom');
 export class DroneDetailsComponent implements OnInit {
 
   constructor(private droneDetailsService: DroneDetailsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
-  lat = 28.704060;
-  long = 77.102493;
+  lat;
+  long;
 
   customStyle = [{  
     "elementType": "all",  
@@ -319,5 +320,8 @@ ngOnInit() {
     //start animation for the Emails Subscription Chart
     this.startAnimationForBarChart(websiteViewsChart);
 }
+  videoStream(){
+    this.router.navigate(["drone", this.droneId, "video-stream"])
+  }
 
 }
