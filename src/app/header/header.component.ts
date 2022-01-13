@@ -94,12 +94,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
-  getImageUrl(): string {
-    return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
-  }
-
   viewProfile(){
-
+    this.router.navigate(['/profile']);
   }
 
   ngOnDestroy(): void {
@@ -108,6 +104,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleSidenav(){
     this.sidenav.toggle();
+  }
+
+  goHome(){
+    if(this.loggedIn){
+      this.router.navigate(["dashboard"]);
+    }
+    else{
+      this.router.navigate(["home"]);
+    }
   }
 
 }

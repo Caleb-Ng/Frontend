@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { LoginService } from '../register/login.service';
+import { AccountService } from '../shared/accounts.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -10,14 +12,34 @@ import { Router } from '@angular/router';
 export class SideNavComponent implements OnInit {
 
   @Input('sidenav') sidenav: MatSidenav;
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private loginService: LoginService,
+    private accountService: AccountService) { }
 
+  loggedIn: boolean;
   ngOnInit(): void {
+    this.loginService.loggedIn.subscribe(
+      loggedIn => this.loggedIn = loggedIn
+    )
+    this.accountService.identity().subscribe(() => {
+      if (this.accountService.isAuthenticated()) {
+        this.loginService.setLoggedIn(true);
+      }
+      else{
+        this.loginService.setLoggedIn(false);
+      }
+    });
+
   }
 
-  routeTo(path){
+  goHome(){
     this.sidenav.toggle();
-    this.router.navigate([path])
+    if(this.loggedIn){
+      this.router.navigate(["dashboard"]);
+    }
+    else{
+      this.router.navigate(["home"]);
+    }
   }
 
 }

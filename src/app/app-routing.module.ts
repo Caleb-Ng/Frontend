@@ -48,7 +48,11 @@ import { headerRoute } from './header/header.route';
     {
       path: "drone/:id",
       loadChildren: () => import("./drone-details/drone-details.module").then((m) => m.DroneDetailsModule)  
-    }
+    },
+    {
+      path: "profile",
+      loadChildren: () => import("./profile/profile.module").then((m) => m.ProfileModule)
+    },
   
   ]
   )

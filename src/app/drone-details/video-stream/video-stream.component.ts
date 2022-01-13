@@ -20,7 +20,7 @@ export class VideoStreamComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.droneId = params["id"];
     })
-    this.streamResource = "http://192.168.1.107:8080/droneUserApi/" + this.droneId + "/stream.mjpg?access_token=" + this.authJwtProvider.getToken() ;
+    this.streamResource = "/droneUserApi/" + this.droneId + "/stream.mjpg?access_token=" + this.authJwtProvider.getToken() ;
   }
 
 

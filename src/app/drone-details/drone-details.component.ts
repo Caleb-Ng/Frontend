@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chartist from 'chartist';
 import { Subscription } from 'rxjs';
@@ -16,7 +17,8 @@ export class DroneDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private droneDetailsService: DroneDetailsService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private snackBar: MatSnackBar) { }
   
     ngOnDestroy(): void {
       this.poll.unsubscribe();
@@ -205,6 +207,22 @@ ngOnInit() {
     if(this.drone['ipAddress']){
       this.hasConfigFile = true;
     }
+  }, err =>{
+    let errorMsg = "";
+    if(err.error.title == "UNAUTHORIZED_USER"){
+      errorMsg = "Drone not exist!"
+    }
+    else if(err.error.title == "UNAUTHORIZED"){
+      errorMsg = "Please log in first to view this drone."
+    }
+    else if (err.error.title == "INVALID_DRONE_USER"){
+      errorMsg = "Invalid User"
+    }
+    else if (err.error.title == "INVALID_DRONE"){
+      errorMsg = "Drone not exist!"
+    }
+    this.snackBar.open(errorMsg, "OK")
+    this.router.navigate(["dashboard"])
   })
 
   const dataAttitude: any = {
@@ -380,7 +398,7 @@ ngOnInit() {
   }
 
   tutorial(){
-    
+
   }
 
   

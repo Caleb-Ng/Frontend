@@ -7,7 +7,7 @@
     
     <!-- home button -->
     <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" >home</mat-icon> -->
-    <button mat-button routerLinkActive="active" [routerLink]="['/home']" [routerLinkActiveOptions]="{ exact: true }">Home</button>
+    <button mat-button (click)="goHome()">Home</button>
     
     <!-- account button -->
     <mat-icon>account_circle</mat-icon>

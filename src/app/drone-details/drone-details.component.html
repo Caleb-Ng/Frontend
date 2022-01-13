@@ -8,13 +8,13 @@
             </agm-map>
         </div>
         <div class="row"> 
-            <h1 *ngIf="lat" 
+            <h1 *ngIf="lat && drone" 
                 style="margin-top: -5%; margin-left: 3%; z-index: 99; 
                 text-shadow: 0 2px 5px rgb(0, 0, 0);color:white;
                 font-size: 3em;">
                 <b>{{drone['name']}}</b>
             </h1>
-            <h1 *ngIf="!lat" style="margin-left: 1%; margin-top: 1%;">
+            <h1 *ngIf="!lat && drone" style="margin-left: 1%; margin-top: 1%;">
                 {{drone['name']}}
             </h1>
         </div>
