@@ -29,6 +29,21 @@ export class DroneDetailsService {
     return this.http.get("/droneUserApi/droneVideoStream/" + droneId, {responseType: "text"})
   }
 
+  takeOff(droneId, body?): Observable<any>{
+    return this.http.post("/droneUserApi/take-off/" + droneId, body );
+  }
+
+  landing(droneId, body?): Observable<any>{
+    return this.http.post("/droneUserApi/land/" + droneId, body );
+  }
+
+  downloadFile(droneId): Observable<any>{
+    return this.http.get("/droneUserApi/configuration-file/" + droneId, {responseType: "text"} );
+  }
+
+  downloadInstallationScript(): Observable<any>{
+    return this.http.get("/droneUserApi/installation-script" , {responseType: "blob"} );
+  }
  
   
 }

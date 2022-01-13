@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { read } from 'fs';
 import { CreateDroneService } from './create-drone.service';
 
 @Component({
@@ -11,6 +12,9 @@ import { CreateDroneService } from './create-drone.service';
 export class CreateDroneComponent implements OnInit {
 
   createDroneForm: FormGroup;
+
+  defaultImage = "https://media.wired.com/photos/59264bb5f3e2356fd8008c6e/master/pass/DroneHP_GettyImages-599365398.jpg"
+  image;
   
   constructor(private fb: FormBuilder,
     private createDroneService: CreateDroneService,
@@ -27,8 +31,10 @@ export class CreateDroneComponent implements OnInit {
   createDrone(){
     let drone = this.createDroneForm.value;
     drone["login"] = drone["username"];
+    if(this.image != null){
+      drone["image"] = this.image;
+    }
     delete drone["username"];
-    console.log(drone);
     this.createDroneService.createDrone(drone).subscribe(res => {
     });
   }
@@ -36,5 +42,20 @@ export class CreateDroneComponent implements OnInit {
   done(){
     this.router.navigate(["dashboard"]);
   }
+
+  onChange(event) {
+    this.image = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0])
+    reader.onload = (_event) => { 
+      this.image = reader.result; 
+    }
+
+  }
+
+  onFileUploadClicked(){
+    document.getElementById('fileInput').click();
+  }
+
 
 }

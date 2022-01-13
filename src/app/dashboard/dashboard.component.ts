@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import * as Chartist from 'chartist';
@@ -10,13 +10,17 @@ import { DashboardService } from './dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
     private dashboardService: DashboardService,
   ) { }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   
+  defaultImage="https://media.wired.com/photos/59264bb5f3e2356fd8008c6e/master/pass/DroneHP_GettyImages-599365398.jpg";
   drones = [];
   totalCount = 0;
   pageSize = 8;

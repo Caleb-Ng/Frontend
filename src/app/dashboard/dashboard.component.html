@@ -11,8 +11,7 @@
                     <div class="card-header card-header-image" style="flex: 1 1 auto;">
                         <!-- <div class="card-header card-header-image" style="flex: 1 1 auto;"> -->
                             <!-- <i class="material-icons">content_copy</i> -->
-                        <img *ngIf="i%2==0" style="height: 100%;" src="https://media.wired.com/photos/59264bb5f3e2356fd8008c6e/master/pass/DroneHP_GettyImages-599365398.jpg" />
-                        <img *ngIf="i%2==1" style="height: 100%;" src="https://cdn.thewirecutter.com/wp-content/media/2021/07/drones-2048px-2x1-9431.jpg?auto=webp&quality=75&crop=2:1&width=1024" />
+                        <img style="height: 100%;" [src]="drone['image']?drone['image']:defaultImage" />
 
                         <!-- <p class="card-category">Drone</p> -->
                         <h3 class="card-title">{{ drone['name'] }}

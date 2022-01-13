@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chartist from 'chartist';
 import { Subscription } from 'rxjs';
@@ -12,11 +12,15 @@ const zoom = require('chartist-plugin-zoom');
   templateUrl: './drone-details.component.html',
   styleUrls: ['./drone-details.component.scss']
 })
-export class DroneDetailsComponent implements OnInit {
+export class DroneDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private droneDetailsService: DroneDetailsService,
     private route: ActivatedRoute,
     private router: Router) { }
+  
+    ngOnDestroy(): void {
+      this.poll.unsubscribe();
+    }
 
   lat;
   long;
@@ -323,5 +327,50 @@ ngOnInit() {
   videoStream(){
     this.router.navigate(["drone", this.droneId, "video-stream"])
   }
+
+  takeOff(){
+    this.droneDetailsService.takeOff(this.droneId, {"altitude": 100}).subscribe();
+  }
+
+  landing(){
+    this.droneDetailsService.landing(this.droneId, {}).subscribe();
+  }
+
+  downloadFile(){
+    this.droneDetailsService.downloadFile(this.droneId).subscribe(
+      res => {
+        let filename = "vpn.conf"
+        let dataType = res.type;
+        let binaryData = [];
+        binaryData.push(res);
+        let downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+        if (filename)
+            downloadLink.setAttribute('download', filename);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      }
+    );
+  }
+
+  downloadInstallationScript(){
+    this.droneDetailsService.downloadInstallationScript().subscribe(
+      res =>{
+        let filename = "installation.tar.gz"
+        let dataType = res.type;
+        let binaryData = [];
+        binaryData.push(res);
+        let downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+        if (filename)
+            downloadLink.setAttribute('download', filename);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      }
+    )
+  }
+
+  
+  
 
 }
