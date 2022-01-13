@@ -47,8 +47,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     
   }
 
-  editDrone(id){
-    console.log(id);
+  editDrone(droneId){
+    this.router.navigate(['create-drone'], { queryParams: { edit:  droneId} });
   }
   
   ngOnInit() {
@@ -71,11 +71,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: PageEvent) {
-    console.log({ event });
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     this.stopPolling()
     this.loadData();
   }
+
+  
 
 }

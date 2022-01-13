@@ -24,14 +24,14 @@
                               </div>
                               
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="!isEdit">
                                 <div class="col-md-6">
                                   <mat-form-field class="example-full-width">
                                       <input matInput formControlName="username" placeholder="Username">
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="!isEdit">
                               <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
                                     <input matInput formControlName="password" placeholder="Password" type="password">
@@ -46,14 +46,15 @@
                               </div>
                             </div>
                           
-                            <button mat-raised-button type="submit" (click)="createDrone()"  class="btn btn-danger pull-right" matStepperNext>Create</button>
+                            <button *ngIf="!isEdit"  mat-raised-button type="submit" (click)="createDrone(stepper)"  class="btn btn-danger pull-right">Create</button>
+                            <button *ngIf="isEdit" mat-raised-button type="submit" (click)="editDrone(stepper)"  class="btn btn-danger pull-right">Edit</button>
                             <div class="clearfix"></div>
                         </form>
                         </mat-step>
 
                         <mat-step>
                           <ng-template matStepLabel>Done</ng-template>
-                          <p>You are now done. Please visit profile page to download the installation script after a few minutes.</p>
+                          <p>You are now done. {{ isEdit?'':'Visit the Drone Page to download the configuration file and installation script after a few minutes.'}}</p>
                           <div>
                             <button mat-button (click)="done()">Done</button>
                           </div>

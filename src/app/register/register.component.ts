@@ -46,7 +46,6 @@ export class RegisterComponent implements OnInit {
     
     this.buildForm();
     this.buildLoginForm();
-    Howler.volume(0.25);
   }
 
   buildForm(){

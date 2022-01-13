@@ -11,5 +11,13 @@ export class CreateDroneService {
 
   createDrone(drone: any): Observable<any>{
     return this.http.post('droneUserApi/drone', drone)
-}
+  }
+
+  getDrone(droneId): Observable<any>{
+    return this.http.get('droneUserApi/drone/' + droneId);
+  }
+
+  editDrone(drone: any): Observable<any>{
+    return this.http.put('droneUserApi/drone', drone);
+  }
 }
