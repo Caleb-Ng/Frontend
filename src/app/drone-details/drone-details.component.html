@@ -1,45 +1,48 @@
 
 <div class="main-content">
     <div class="container-fluid">
-        <div>
-            <button mat-fab color="accent" (click)="createDrone()" style="position: fixed; bottom: 5%; right: 5%; z-index: 99;">
-                <mat-icon>add</mat-icon>
-              </button>
-        </div>
-        <div class="row">
+        <div class="row" *ngIf="lat">
             <agm-map [latitude]='lat' [longitude]='long'>
                 <agm-marker [latitude]="lat" [longitude]="long">
                 </agm-marker>
             </agm-map>
         </div>
+        <div class="row"> 
+            <h1 *ngIf="lat" 
+                style="margin-top: -5%; margin-left: 3%; z-index: 99; 
+                text-shadow: 0 2px 5px rgb(0, 0, 0);color:white;
+                font-size: 3em;">
+                <b>{{drone['name']}}</b>
+            </h1>
+            <h1 *ngIf="!lat" style="margin-left: 1%; margin-top: 1%;">
+                {{drone['name']}}
+            </h1>
+        </div>
         <div class="row">
-            <button mat-raised-button style="margin:1%;" color="accent" (click)="videoStream()">Camera Stream</button>
-            <button mat-raised-button style="margin:1%;" color="accent" (click)="downloadFile()">Config File</button>
+            <button mat-raised-button style="margin:1%;" color="accent" (click)="videoStream()" *ngIf="!isNewDrone">Camera Stream</button>
+            <button mat-raised-button style="margin:1%;" *ngIf="hasConfigFile" color="accent" (click)="downloadFile()">Config File</button>
             <button mat-raised-button style="margin:1%;" color="accent" (click)="downloadInstallationScript()">Installation Script</button>
-            <div class="row" style="margin-left: auto; margin-right: 1%; margin-top: 1%;">
-                <button mat-raised-button color="warn" (click)="takeOff()">Take Off</button>
+            <div class="row" style="margin-left: auto; margin-right: 1%; margin-top: 1%;" *ngIf="!isNewDrone && droneTelemetries['status']">
+                <button mat-raised-button color="warn"  (click)="takeOff()">Take Off</button>
                 <button mat-raised-button color="warn" (click)="landing()">Landing</button>
             </div>
             
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div [ngClass]="{'card-header card-header-icon' : true, 'card-header-danger': latestStatus&&!latestStatus['armable'], 'card-header-success': latestStatus&&latestStatus['armable']}">
-                        <div class="card-icon">
-                            <i class="material-icons"><mat-icon svgIcon="drone" style="width: 45px; height: 45px;"></mat-icon></i>
-                        </div>
-                        <p class="card-category">Armable</p>
-                        <h3 class="card-title" *ngIf="latestStatus"><b>{{ latestStatus["armable"]?"Yes":"No" }}</b>
-                        </h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats" *ngIf="latestStatus">
-                            <i class="material-icons">access_time</i> Last Updated: {{ latestStatus["createdDate"] | date: 'medium'  }}
-                        </div>
-                    </div>
+        <div class="row" *ngIf="isNewDrone">
+            <div style="text-align: center; width: 100%;">
+                <h3 *ngIf="!hasConfigFile">The configuration file will be available in a few minutes. Please come back later.</h3>
+                <div *ngIf="hasConfigFile">
+                    <h3>Configure and Install using the configuration file and installation script above on your Drone to see Drone Status.</h3>
+                <br>
+                <p><span>Click </span> <a style="cursor: pointer;" (click)="tutorial()"><u>here</u></a> <span> for tutorial.</span></p>
                 </div>
+                
+                
             </div>
+            
+            
+        </div>
+        <div class="row" *ngIf="!isNewDrone">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div [ngClass]="{'card-header card-header-icon' : true, 'card-header-danger': latestStatus&&!latestStatus['armed'], 'card-header-success': latestStatus&&latestStatus['armed']}">

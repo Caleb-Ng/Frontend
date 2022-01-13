@@ -44,6 +44,10 @@ export class DroneDetailsService {
   downloadInstallationScript(): Observable<any>{
     return this.http.get("/droneUserApi/installation-script" , {responseType: "blob"} );
   }
+
+  getDrone(droneId): Observable<any>{
+    return this.http.get('droneUserApi/drone/' + droneId);
+  }
  
   
 }

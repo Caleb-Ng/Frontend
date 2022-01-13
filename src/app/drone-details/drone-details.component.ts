@@ -47,6 +47,9 @@ export class DroneDetailsComponent implements OnInit, OnDestroy {
   attitudeChart
   velocityChart
   poll: Subscription
+  isNewDrone = true;
+  drone;
+  hasConfigFile = false;
 
   startAnimationForLineChart(chart){
     let seq: any, delays: any, durations: any;
@@ -119,6 +122,9 @@ startPoll(){
   this.poll = this.droneDetailsService.getTelemetry(this.droneId, this.range).subscribe(res => {
     this.droneTelemetries = res;
     this.latestStatus = this.droneTelemetries["latestTelemetry"];
+    if(this.latestStatus['id']){
+      this.isNewDrone = false;
+    }
     let dateList: Array<any> = this.droneTelemetries["dateList"];
     this.lat = this.latestStatus["globalLat"];
     this.long = this.latestStatus["globalLon"];
@@ -194,6 +200,12 @@ ngOnInit() {
     this.droneId = params["id"];
   })
 
+  this.droneDetailsService.getDrone(this.droneId).subscribe(res => {
+    this.drone = res;
+    if(this.drone['ipAddress']){
+      this.hasConfigFile = true;
+    }
+  })
 
   const dataAttitude: any = {
     labels: this.dateString,
@@ -231,9 +243,6 @@ ngOnInit() {
       end: 'ct-end'
     }
     }
-
-    
-
 
     this.attitudeChart = new Chartist.Line('#attitudeChart', dataAttitude, optionsAttitude);
 
@@ -368,6 +377,10 @@ ngOnInit() {
         downloadLink.click();
       }
     )
+  }
+
+  tutorial(){
+    
   }
 
   
