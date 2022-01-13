@@ -11,7 +11,7 @@
                     <div class="card-header card-header-image" style="flex: 1 1 auto;">
                         <!-- <div class="card-header card-header-image" style="flex: 1 1 auto;"> -->
                             <!-- <i class="material-icons">content_copy</i> -->
-                        <img style="height: 100%;" [src]="drone['image']?drone['image']:defaultImage" />
+                        <img style="height: 100%; overflow:hidden; object-fit: cover; aspect-ratio: 16/9; background-color: white;" [src]="drone['image']?drone['image']:defaultImage" />
 
                         <!-- <p class="card-category">Drone</p> -->
                         <h3 class="card-title">{{ drone['name'] }}

@@ -1,5 +1,17 @@
 <mat-selection-list [multiple]="false">
     <mat-list-option (click)="goHome()">
-        Home
+        <div class="center-vertically">
+            <mat-icon style="margin:1%;">home</mat-icon>Home
+        </div>
+    </mat-list-option>
+    <mat-list-option *ngIf="!loggedIn" (click)="logIn()">
+       <div class="center-vertically">
+        <mat-icon style="margin:1%;">account_circle</mat-icon>Log In
+       </div>
+    </mat-list-option>
+    <mat-list-option *ngIf="loggedIn" (click)="goProfile()">
+       <div class="center-vertically">
+        <mat-icon style="margin:1%;">account_circle</mat-icon>Profile
+       </div>
     </mat-list-option>
 </mat-selection-list>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 
 @Component({
@@ -13,7 +15,9 @@ export class ProfileComponent implements OnInit {
   isEditing = false;
   profile;
   constructor(private fb: FormBuilder,
-    private profileService: ProfileService) { }
+    private profileService: ProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -30,6 +34,11 @@ export class ProfileComponent implements OnInit {
         lastName: this.profile['lastName'],
         email: this.profile['email']
       })
+    }, err => {
+      if(err.error.title === "Unauthorized"){
+        this.snackBar.open("Please log in first.", "OK");
+        this.router.navigate(["/home"]);
+      }
     })
   }
 

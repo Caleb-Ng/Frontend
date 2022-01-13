@@ -75,12 +75,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.accountService.isAuthenticated();
   }
 
-  login(): void {
-    this.router.navigate(['/login']);
+  login(){
+    this.router.navigate(['/register'],{queryParams: {authorization: 'provider', type: 'login'}});
   }
 
   register(): void {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register'],{queryParams: {authorization: 'provider', type: 'register'}});
   }
 
   logout(): void {

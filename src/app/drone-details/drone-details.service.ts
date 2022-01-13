@@ -48,6 +48,9 @@ export class DroneDetailsService {
   getDrone(droneId): Observable<any>{
     return this.http.get('droneUserApi/drone/' + droneId);
   }
- 
+  
+  loginDrone(body): Observable<any>{
+    return this.http.post('droneApi/authenticateFromUI', body);
+  }
   
 }

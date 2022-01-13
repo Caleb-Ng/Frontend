@@ -10,9 +10,6 @@ import {Howl, Howler} from 'howler';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-   sound = new Howl({
-    src: ['../../assets/audio/helikopter-short.mp3']
-  });
   loggedIn: boolean;
   constructor(private router: Router,
     private loginService: LoginService,
@@ -35,14 +32,9 @@ export class HomeComponent implements OnInit {
       }
     });
     
-    
-
-    this.sound.play();
-    Howler.volume(0.25);
   }
 
   login(): void {
-    this.sound.play();
     if(this.loggedIn){
       this.router.navigate(['/logInSuccess']);
     }
@@ -54,7 +46,6 @@ export class HomeComponent implements OnInit {
   }
 
   loginProvider(): void {
-    this.sound.play();
     if(this.loggedIn){
       this.router.navigate(['/dashboard']);
     }
@@ -66,8 +57,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToSuccessLogInPage(){
-    this.sound.play();
-    this.router.navigate(['/logInSuccess']);
+    //this.router.navigate(['/logInSuccess']);
   }
 
 

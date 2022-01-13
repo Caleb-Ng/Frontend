@@ -7,15 +7,15 @@
     
     <!-- home button -->
     <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" >home</mat-icon> -->
-    <button mat-button (click)="goHome()">Home</button>
+    <button mat-button (click)="goHome()">
+      <mat-icon>home</mat-icon>Home</button>
     
     <!-- account button -->
-    <mat-icon>account_circle</mat-icon>
-    <button mat-button  *ngIf="!loggedIn" [matMenuTriggerFor]="account">Log in</button>
-    <button mat-button  *ngIf="loggedIn" [matMenuTriggerFor]="account">Account</button>
+    <button mat-button  *ngIf="!loggedIn" [matMenuTriggerFor]="account"><mat-icon>account_circle</mat-icon>Log in</button>
+    <button mat-button  *ngIf="loggedIn" [matMenuTriggerFor]="account"><mat-icon>account_circle</mat-icon>Account</button>
     <mat-menu #account="matMenu">
       <button mat-menu-item (click)="register()" *ngIf="!loggedIn">Register</button>
-      <button (click)="login()" mat-menu-item *ngIf="!loggedIn">Login</button>
+      <button mat-menu-item (click)="login()" *ngIf="!loggedIn">Login</button>
       <button mat-menu-item (click)="viewProfile()" *ngIf="loggedIn">Profile</button>
       <button mat-menu-item (click)="logout()" *ngIf="loggedIn">Log Out</button>
     </mat-menu>

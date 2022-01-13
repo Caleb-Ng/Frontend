@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Please login the drone first</h2>
+<mat-dialog-content [formGroup]="loginForm" *ngIf="loginForm">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Username</mat-label>
+                  <input formControlName="username" matInput placeholder="Username">
+                  <mat-error *ngIf="loginForm.get('username').hasError('required')">Username is Required</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input formControlName="password" matInput placeholder="Password" type="password">
+                <mat-error *ngIf="loginForm.get('password').hasError('required')">Password is Required</mat-error>
+              </mat-form-field>
+            </div>
+            
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <mat-error *ngIf="authenticationError">Invalid username/password</mat-error>
+          </div>
+        </div>
+        
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-button (click)="login()">Confirm</button>
+</mat-dialog-actions>
+

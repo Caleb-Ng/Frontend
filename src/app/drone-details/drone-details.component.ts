@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Chartist from 'chartist';
 import { Subscription } from 'rxjs';
+import { DroneAuthenticationDialogComponent } from './drone-authentication-dialog/drone-authentication-dialog.component';
 import { DroneDetailsService } from './drone-details.service';
 
 const tooltip = require('chartist-plugin-tooltip');
@@ -18,7 +20,8 @@ export class DroneDetailsComponent implements OnInit, OnDestroy {
   constructor(private droneDetailsService: DroneDetailsService,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
   
     ngOnDestroy(): void {
       this.poll.unsubscribe();
@@ -209,20 +212,29 @@ ngOnInit() {
     }
   }, err =>{
     let errorMsg = "";
+    let navigateTo = "";
     if(err.error.title == "UNAUTHORIZED_USER"){
       errorMsg = "Drone not exist!"
+      navigateTo = "dashboard"
     }
     else if(err.error.title == "UNAUTHORIZED"){
-      errorMsg = "Please log in first to view this drone."
+      errorMsg = "Please log in first!"
+      navigateTo = "home"
     }
     else if (err.error.title == "INVALID_DRONE_USER"){
       errorMsg = "Invalid User"
+      navigateTo = "dashboard"
     }
     else if (err.error.title == "INVALID_DRONE"){
       errorMsg = "Drone not exist!"
+      navigateTo = "dashboard"
+    }
+    else  if(err.error.title == "Unauthorized"){
+      errorMsg = "Please log in first!"
+      navigateTo = "home"
     }
     this.snackBar.open(errorMsg, "OK")
-    this.router.navigate(["dashboard"])
+    this.router.navigate([navigateTo])
   })
 
   const dataAttitude: any = {
@@ -288,79 +300,47 @@ ngOnInit() {
 
     this.startPoll();
   
-
-  
-
-  
-
-
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-    const dataCompletedTasksChart: any = {
-        labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-        series: [
-            [230, 750, 450, 300, 280, 240, 200, 190]
-        ]
-    };
-
-   const optionsCompletedTasksChart: any = {
-        lineSmooth: Chartist.Interpolation.cardinal({
-            tension: 0
-        }),
-        low: 0,
-        high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-        chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-    }
-
-    var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
-
-
-
-    /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-    var datawebsiteViewsChart = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-      ]
-    };
-    var optionswebsiteViewsChart = {
-        axisX: {
-            showGrid: false
-        },
-        low: 0,
-        high: 1000,
-        chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-    };
-    var responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    //start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart);
 }
   videoStream(){
     this.router.navigate(["drone", this.droneId, "video-stream"])
   }
 
-  takeOff(){
-    this.droneDetailsService.takeOff(this.droneId, {"altitude": 100}).subscribe();
+  takeOff(): void {
+    const dialogRef = this.dialog.open(DroneAuthenticationDialogComponent, {
+      data: {droneId: this.droneId},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success){
+        let username = result.username;
+        let password = result.password;
+        this.droneDetailsService.takeOff(this.droneId, {altitude: 10, username: username, password: password}).subscribe(
+          res => {
+            this.snackBar.open("Successfully take off!", "OK");
+          }
+        );
+      }
+      
+    });
   }
 
+
   landing(){
-    this.droneDetailsService.landing(this.droneId, {}).subscribe();
+    const dialogRef = this.dialog.open(DroneAuthenticationDialogComponent, {
+      data: {droneId: this.droneId},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success){
+        let username = result.username;
+        let password = result.password;
+        this.droneDetailsService.landing(this.droneId, {username: username, password: password}).subscribe(res => {
+          this.snackBar.open("Successfully landed", "OK");
+        });
+      }
+      
+    });
+    
   }
 
   downloadFile(){

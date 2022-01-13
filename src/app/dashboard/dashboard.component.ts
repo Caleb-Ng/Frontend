@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as Chartist from 'chartist';
 import { Subscription } from 'rxjs';
@@ -15,6 +16,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dashboardService: DashboardService,
+    private snackBar: MatSnackBar,
   ) { }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -64,6 +66,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscription = this.dashboardService.getDrone(req).subscribe(res => {
       this.drones = res.body;
       this.totalCount = res.headers.get("X-Total-Count")
+    }, err => {
+      if(err.error.title == "Unauthorized"){
+        this.snackBar.open("Please log in first!", "OK")
+        this.router.navigate(["home"]);
+      }
     });
   }
   stopPolling(){

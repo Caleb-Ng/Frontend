@@ -15,14 +15,12 @@ import 'rxjs/add/operator/filter';
 })
 export class RegisterComponent implements OnInit {
   authorization: String;
-  sound = new Howl({
-    src: ['../../assets/audio/helikopter-short.mp3']
-  });
 
   form: FormGroup;
   loginForm: FormGroup;
   authenticationError = false;
-
+  type;
+  tabIndex = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +38,14 @@ export class RegisterComponent implements OnInit {
       }
     });
     this.route.queryParamMap.subscribe(params => {
-      this.authorization = params.get("authorization")
+      this.authorization = params.get("authorization");
+      this.type = params.get("type");
+      if(this.type == "register"){
+        this.tabIndex = 1;
+      }
+      else{
+        this.tabIndex = 0;
+      }
     });
   
     

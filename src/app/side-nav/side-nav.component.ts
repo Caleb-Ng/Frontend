@@ -42,4 +42,18 @@ export class SideNavComponent implements OnInit {
     }
   }
 
+  goProfile(){
+    this.sidenav.toggle();
+    if(this.loggedIn){
+      this.router.navigate(["profile"]);
+    }
+  }
+
+  logIn(){
+    this.sidenav.toggle();
+    if(!this.loggedIn){
+      this.router.navigate(["register"], {queryParams:{authorization: 'provider', type: "login"}});
+    }
+  }
+
 }
