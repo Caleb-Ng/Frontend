@@ -363,7 +363,7 @@ ngOnInit() {
   downloadInstallationScript(){
     this.droneDetailsService.downloadInstallationScript().subscribe(
       res =>{
-        let filename = "installation.tar.gz"
+        let filename = "install.tar.xz"
         let dataType = res.type;
         let binaryData = [];
         binaryData.push(res);
@@ -378,7 +378,7 @@ ngOnInit() {
   }
 
   tutorial(){
-
+    this.router.navigate(["tutorial"]);
   }
 
   

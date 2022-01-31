@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateDroneService } from './create-drone.service';
 import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-drone',
@@ -21,7 +22,8 @@ export class CreateDroneComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private createDroneService: CreateDroneService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -93,12 +95,18 @@ export class CreateDroneComponent implements OnInit {
   }
 
   onChange(event) {
-    this.image = event.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0])
-    reader.onload = (_event) => { 
-      this.image = reader.result; 
+    // this.image = event.target.files[0];
+    if(event.target.files[0].size > 500000){
+      this.snackBar.open("Fize size cannot exceed 500KB", "OK");
     }
+    else{
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0])
+      reader.onload = (_event) => { 
+        this.image = reader.result; 
+      }
+    }
+
 
   }
 

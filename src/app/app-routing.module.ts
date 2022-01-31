@@ -50,6 +50,10 @@ import { headerRoute } from './header/header.route';
       loadChildren: () => import("./profile/profile.module").then((m) => m.ProfileModule)
     },
     {
+      path: "tutorial",
+      loadChildren: () => import("./tutorial/tutorial.module").then((m) => m.TutorialModule)
+    },
+    {
       path: '**',
       redirectTo: '/home'
     }
