@@ -1,6 +1,7 @@
+
 export const environment = {
-  production: true,
-  endpoint: "api",
-  providerEndpoint: "droneUserApi",
-  baseurl: "http://localhost:8080"
+  production: false,
+  endpoint: "http://159.223.35.116:8080/api",
+  providerEndpoint: "http://159.223.35.116:8080/droneUserApi",
+  droneEndpoint: "http://159.223.35.116:8080/droneApi",
 };

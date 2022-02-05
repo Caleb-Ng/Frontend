@@ -95,14 +95,17 @@ export class RegisterComponent implements OnInit {
         }
       )
     }
-    this.authService.register(register).subscribe(
-      res => {
-        this.router.navigate(['register','success'])
-      },
-      err => {
-        
-      }
-    )
+    else{
+      this.authService.register(register).subscribe(
+        res => {
+          this.router.navigate(['register','success'])
+        },
+        err => {
+          
+        }
+      )
+    }
+    
   }
 
   login(): void {

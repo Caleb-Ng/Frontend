@@ -9,9 +9,14 @@ import { shareReplay, tap, catchError } from 'rxjs/operators';
 import { StateStorageService } from './state-storage.service';
 import { ApplicationConfigService } from './application-config.services';
 import { Account } from './account.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
+
+  providerEndpoint = environment.providerEndpoint;
+  endpoint = environment.endpoint;
+
   private userIdentity: Account | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private accountCache$?: Observable<Account | null>;
@@ -87,10 +92,10 @@ export class AccountService {
       authorization = this.localStorage.retrieve('authorization');
     }
     if(authorization == "provider"){
-      return this.http.get<Account>(this.applicationConfigService.getEndpointFor('droneUserApi/account'));
+      return this.http.get<Account>(this.applicationConfigService.getEndpointFor(`${this.providerEndpoint}/account`));
     }
     else{
-      return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
+      return this.http.get<Account>(this.applicationConfigService.getEndpointFor(`${this.endpoint}/account`));
     }
     
   }
