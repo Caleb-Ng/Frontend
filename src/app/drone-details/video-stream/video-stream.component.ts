@@ -4,6 +4,7 @@ import { LoginService } from '../../register/login.service';
 import { AccountService } from '../../shared/accounts.service';
 import { AuthServerProvider } from '../../shared/auth-jwt.services';
 import { DroneDetailsService } from '../drone-details.service';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-video-stream',
@@ -11,6 +12,7 @@ import { DroneDetailsService } from '../drone-details.service';
   styleUrls: ['./video-stream.component.scss']
 })
 export class VideoStreamComponent implements OnInit {
+  private endpoint = environment.providerEndpoint;
   
   constructor(private droneDetailsService: DroneDetailsService,
     private route: ActivatedRoute,
@@ -32,7 +34,7 @@ export class VideoStreamComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.droneId = params["id"];
     })
-    this.streamResource = "/droneUserApi/" + this.droneId + "/stream.mjpg?access_token=" + this.authJwtProvider.getToken() ;
+    this.streamResource = this.endpoint + "/" + this.droneId + "/stream.mjpg?access_token=" + this.authJwtProvider.getToken() ;
   }
 
 
