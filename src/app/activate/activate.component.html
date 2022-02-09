@@ -1,0 +1,35 @@
+
+<div fxLayout="row" fxLayoutAlign="center stretch" style="margin-top: 5%;">
+    <div class="col-md-8">
+              <div class="card">
+                <!-- <div class="card-header card-header-warning">
+                  <h4 class="card-title">Register</h4>
+                  <p class="card-category">Complete your profile</p>
+              </div> -->
+              <div class="row">
+                <div class="col-md-12" style="padding:10%">
+                    <div *ngIf="activated" fxLayout="row" fxLayoutAlign="start center">
+                        
+                        <p class="h2">Your account is activated.</p>
+                        <mat-icon style="margin-left: 2%; color: rgb(7, 107, 29)">check_circle</mat-icon>
+                    </div>
+                    <div *ngIf="!activated" fxLayout="column">
+                        
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <p class="h2">Your account is not activated.</p>
+                            <mat-icon style="margin-left: 2%; color: rgb(133, 7, 7)">cancel</mat-icon>
+                        </div>
+                        
+                        <p class="h4">This may because your account is already activated or not registered yet. Please try to login or register again.</p>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="warn" (click)="toLogin()">Login</button>
+                    </div>
+                </div>
+                
+              </div>
+                
+                  
+              </div>
+          </div>
+</div>   
